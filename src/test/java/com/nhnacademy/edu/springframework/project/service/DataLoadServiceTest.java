@@ -1,9 +1,6 @@
 package com.nhnacademy.edu.springframework.project.service;
 
-import com.nhnacademy.edu.springframework.project.repository.CsvScores;
-import com.nhnacademy.edu.springframework.project.repository.CsvStudents;
-import com.nhnacademy.edu.springframework.project.repository.Scores;
-import com.nhnacademy.edu.springframework.project.repository.Students;
+import com.nhnacademy.edu.springframework.project.repository.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +25,15 @@ class DataLoadServiceTest {
 
         csvStudents.merge(csvScores.findAll());
 
-        csvStudents.findAll().stream().forEach(student -> System.out.println(student));
+        Score firstScore = csvStudents.findAll().stream()
+                .findFirst()
+                .get().getScore();
+
+//        csvStudents.findAll().stream()
+//                        .skip(csvStudents.findAll().stream().count())
+
+        Assertions.assertThat(firstScore).isNotNull();
+
+//        csvStudents.findAll().stream().forEach(student -> System.out.println(student));
     }
 }
