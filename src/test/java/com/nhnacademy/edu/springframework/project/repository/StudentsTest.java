@@ -3,6 +3,8 @@ package com.nhnacademy.edu.springframework.project.repository;
 import com.nhnacademy.edu.springframework.project.service.Student;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,77 +19,44 @@ import static org.junit.jupiter.api.Assertions.*;
 class StudentsTest {
 
 
+
+    ApplicationContext context = new AnnotationConfigApplicationContext("com.nhnacademy.edu.springframework.project");
+    Students csvStudents = context.getBean("csvStudents", Students.class);
+
+    Scores csvScores = context.getBean("csvScores", Scores.class);
+
     @Test
     void load() {
 
-        Collection<Student> testList = getList();
-
-        assertThat(testList).isNotEmpty();
-
+        csvStudents.load();
+        assertThat(csvStudents.findAll()).isNotEmpty();
     }
 
     @Test
     void findAll() {
 
-        Collection<Student> testList = getList();
+        csvStudents.load();
 
-        assertThat(testList.size()).isEqualTo(4);
-
+        assertThat(csvStudents.findAll().stream().count()).isEqualTo(15);
     }
 
     @Test
     void merge() {
 
-        Student st1 = new Student(1, "A");
-        Student st2 = new Student(2, "B");
-        Student st3 = new Student(3, "A");
-        Student st4 = new Student(4, "D");
+        csvScores.load();
+        csvStudents.load();
+        csvStudents.merge(csvScores.findAll());
 
-        Score sc1 = new Score(1, 30);
-        Score sc2 = new Score(2, 80);
-        Score sc3 = new Score(3, 70);
+        Student firstStudent = csvStudents.findAll().stream()
+                .findFirst()
+                .get();
+        Student lastStudent = csvStudents.findAll().stream()
+                .skip(csvStudents.findAll().stream().count() - 1)
+                .findFirst()
+                .get();
 
-        Collection<Score> testScoreList = new ArrayList<>(
-                Arrays.asList(sc1, sc2, sc3)
-        );
+        assertThat(firstStudent.getScore()).isNotNull();
+        assertThat(lastStudent.getScore()).isNotNull();
 
-        Collection<Student> testStudentsList = new ArrayList<>(
-                Arrays.asList(st1, st2, st3, st4)
-        );
-
-        testStudentsList.stream().forEach(student -> {
-            testScoreList.stream().forEach(score -> {
-                if (student.getScore() == null) {
-                    if (student.getSeq() == score.getStudentSeq()) {
-                        student.setScore(score);
-                    }
-                }
-            });
-        });
-
-        st1.setScore(new Score(1, 30));
-        st2.setScore(new Score(2, 80));
-        st3.setScore(new Score(3, 70));
-
-        Collection<Student> expectation = new ArrayList<>(Arrays.asList(st1, st2, st3, st4));
-
-        assertThat(expectation).hasSameElementsAs(testStudentsList);
-    }
-
-    private static Collection<Student> getList() {
-        Collection<Student> testList = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader("D:\\NHNAcademy 강의자료\\spring_core과제\\springframework-project\\src\\test\\resources\\data\\student.csv"))){
-            String line;
-            while ((line = br.readLine()) != null) {
-
-                String[] values = line.split(",");
-                Student temp = new Student(Integer.parseInt(values[0]), values[1]);
-                testList.add(temp);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return testList;
     }
 }
