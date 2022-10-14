@@ -18,7 +18,7 @@ public class DefaultStudentService implements StudentService {
         // Java stream api 의 filter() 를 사용하여 필터링된 Student 객체를 리턴 하세요. (Students 와 Student 는 다릅니다.)
         return studentRepository.findAll()
                 .stream()
-                .filter(s -> s.getScore().isFail() != true)
+                .filter(s -> !s.getScore().isFail())
                 .collect(Collectors.toList());
     }
 
