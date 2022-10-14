@@ -15,7 +15,7 @@ import java.util.Collection;
 public class Main {
     public static void main(String[] args) {
 
-        ApplicationContext context = new AnnotationConfigApplicationContext("com.nhnacademy.edu.springframework.project");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("com.nhnacademy.edu.springframework.project");
 
         DataLoadService dataLoadService = context.getBean("csvDataLoadService", DataLoadService.class);
         dataLoadService.loadAndMerge();

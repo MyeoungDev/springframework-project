@@ -37,9 +37,9 @@ public class CsvStudents implements Students {
     public void load() {
 
         File file = new File("src/main/resources/data/student.csv");
-        String absolutePath = file.getAbsolutePath();
+//        String absolutePath = file.getAbsolutePath();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+        try (BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()))){
 
                 String line;
             while ((line = br.readLine()) != null) {
@@ -48,6 +48,8 @@ public class CsvStudents implements Students {
                 Student temp = new Student(Integer.parseInt(values[0]), values[1]);
                 studensRecord.add(temp);
             }
+
+//            br.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

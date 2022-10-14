@@ -45,12 +45,5 @@ class GradeQueryServiceTest {
         Score result = defaultGradeQueryService.getScoreByStudentSeq(findSeq);
         Assertions.assertThat(result.getScore()).isEqualTo(50);
 
-//
-//        new CsvDataLoadService().loadAndMerge();
-//        Collection<Student> all = CsvStudents.getInstance().findAll();
-//
-//        Score result = new DefaultGradeQueryService().getScoreByStudentSeq(findSeq);
-//
-//        Assertions.assertThat(result.getScore()).isEqualTo(50);
     }
 }

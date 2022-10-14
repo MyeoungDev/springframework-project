@@ -1,7 +1,9 @@
 package com.nhnacademy.edu.springframework.project.repository;
 
+import com.nhnacademy.edu.springframework.project.configuration.JavaConfiguration;
 import com.nhnacademy.edu.springframework.project.service.Student;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -28,6 +30,7 @@ class ScoresTest {
         assertThat(csvScores.findAll()).isNotEmpty();
 //        assertThat(all.stream().count()).isEqualTo(15);
     }
+
     @Test
     void findAll() {
 

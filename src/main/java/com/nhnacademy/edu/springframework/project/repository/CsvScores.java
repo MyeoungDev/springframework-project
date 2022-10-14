@@ -35,8 +35,8 @@ public class CsvScores implements Scores {
     public void load() {
 
         File file = new File("src/main/resources/data/score.csv");
-        String absolutePath = file.getAbsolutePath();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+//        String absolutePath = file.getAbsolutePath();
+        try (BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()))) {
             String line;
             while ((line = br.readLine()) != null) {
 
@@ -44,6 +44,8 @@ public class CsvScores implements Scores {
                 Score temp = new Score(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
                 scoreRecord.add(temp);
             }
+
+//            br.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
