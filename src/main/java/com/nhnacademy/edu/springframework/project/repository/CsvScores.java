@@ -1,6 +1,8 @@
 package com.nhnacademy.edu.springframework.project.repository;
 
 import com.nhnacademy.edu.springframework.project.service.Student;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,26 +11,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Component
 public class CsvScores implements Scores {
 
-    private static CsvScores csvScores;
+
+    private CsvScores csvScores;
     private List<Score> scoreRecord;
+
+    @Autowired
+    public void setCsvScores(CsvScores csvScores) {
+        this.csvScores = csvScores;
+    }
 
     private CsvScores(){
         this.scoreRecord = new ArrayList<>();
     }
 
-    /** TODO 2 :
-     * Java Singleton 패턴으로 getInstance() 를 구현하세요.
-     **/
-    public static Scores getInstance() {
-        if (csvScores == null) {
-            csvScores = new CsvScores();
-        }
-        return csvScores;
-    }
-
-    // TODO 5 : score.csv 파일에서 데이터를 읽어 멤버 변수에 추가하는 로직을 구현하세요.
     @Override
     public void load() {
         try (BufferedReader br = new BufferedReader(new FileReader("D:\\NHNAcademy 강의자료\\spring_core과제\\springframework-project\\src\\main\\resources\\data\\score.csv"))){

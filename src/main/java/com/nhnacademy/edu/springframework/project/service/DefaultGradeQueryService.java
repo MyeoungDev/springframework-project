@@ -4,6 +4,8 @@ import com.nhnacademy.edu.springframework.project.repository.CsvScores;
 import com.nhnacademy.edu.springframework.project.repository.CsvStudents;
 import com.nhnacademy.edu.springframework.project.repository.Score;
 import com.nhnacademy.edu.springframework.project.repository.Students;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.security.cert.CertStore;
 import java.util.ArrayList;
@@ -11,7 +13,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class DefaultGradeQueryService implements GradeQueryService {
+
+    @Autowired
+    private CsvScores csvScores;
+
+    @Autowired
+    private CsvStudents csvStudents;
 
     @Override
     public List<Score> getScoreByStudentName(String name) {
@@ -27,27 +36,38 @@ public class DefaultGradeQueryService implements GradeQueryService {
         //
 
         List<Score> list = new ArrayList<>();
-        Collection<Student> students = CsvStudents.getInstance().findAll();
 
-        students.forEach(student -> {
-            if (student.getName().equals(name)) {
-                list.add(student.getScore());
-            }
-        });
+        csvStudents.findAll().stream()
+                .forEach(student -> {
+                    if (student.getName().equals(name)) {
+                        list.add(student.getScore());
+                    }
+                });
         return list;
+
+
+//        Collection<Student> students = CsvStudents.getInstance().findAll();
+//
+//        students.forEach(student -> {
+//            if (student.getName().equals(name)) {
+//                list.add(student.getScore());
+//            }
+//        });
+//        return list;
     }
 
     @Override
     public Score getScoreByStudentSeq(int seq) {
         // TODO 6 : 학번으로 점수를 반환합니다. seq 인자가 학번입니다.
 
-        CsvScores.getInstance().findAll().stream()
-                .filter(score -> score.getStudentSeq() == seq)
-                .collect(Collectors.toList()).get(0);
-
-        return CsvScores.getInstance().findAll().stream()
-                .filter(score -> score.getStudentSeq() == seq)
-                .findFirst()
-                .get();
+//        CsvScores.getInstance().findAll().stream()
+//                .filter(score -> score.getStudentSeq() == seq)
+//                .collect(Collectors.toList()).get(0);
+//
+//        return CsvScores.getInstance().findAll().stream()
+//                .filter(score -> score.getStudentSeq() == seq)
+//                .findFirst()
+//                .get();
+        return null;
     }
 }

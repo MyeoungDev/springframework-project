@@ -1,8 +1,14 @@
 package com.nhnacademy.edu.springframework.project.service;
 
+import com.nhnacademy.edu.springframework.project.repository.CsvScores;
 import com.nhnacademy.edu.springframework.project.repository.CsvStudents;
+import com.nhnacademy.edu.springframework.project.repository.Scores;
+import com.nhnacademy.edu.springframework.project.repository.Students;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Collection;
 
@@ -13,15 +19,25 @@ class DataLoadServiceTest {
     @Test
     void loadAndMerge() {
 
-        CsvDataLoadService csvDataLoadService = new CsvDataLoadService();
-        csvDataLoadService.loadAndMerge();
+        ApplicationContext context = new AnnotationConfigApplicationContext("com.nhnacademy.edu.springframework.project");
+        Scores csvScores = context.getBean("csvScores", Scores.class);
+        Students csvStudents = context.getBean("csvStudents", Students.class);
 
-        Collection<Student> all = CsvStudents.getInstance().findAll();
+        csvScores.load();
+        csvStudents.load();
 
-        Student firstStudent = all.stream().findFirst().get();
-        Student lastStudent = all.stream().skip(all.stream().count() - 1).findFirst().get();
+        csvStudents.merge(csvScores.findAll());
 
-        Assertions.assertThat(firstStudent.getScore()).isNotNull();
-        Assertions.assertThat(lastStudent.getScore()).isNotNull();
+        csvStudents.findAll().stream().forEach(student -> System.out.println(student));
+//        CsvDataLoadService csvDataLoadService = new CsvDataLoadService();
+//        csvDataLoadService.loadAndMerge();
+//
+//        Collection<Student> all = CsvStudents.getInstance().findAll();
+//
+//        Student firstStudent = all.stream().findFirst().get();
+//        Student lastStudent = all.stream().skip(all.stream().count() - 1).findFirst().get();
+//
+//        Assertions.assertThat(firstStudent.getScore()).isNotNull();
+//        Assertions.assertThat(lastStudent.getScore()).isNotNull();
     }
 }
