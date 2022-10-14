@@ -16,7 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GradeQueryServiceTest {
 
-    static ApplicationContext context = new AnnotationConfigApplicationContext("com.nhnacademy.edu.springframework.project");
+    ApplicationContext context = new AnnotationConfigApplicationContext("com.nhnacademy.edu.springframework.project");
+
+    DataLoadService csvDataLoadService = context.getBean("csvDataLoadService", DataLoadService.class);
+    Students csvStudent = context.getBean("csvStudents", Students.class);
+    GradeQueryService defaultGradeQueryService = context.getBean("defaultGradeQueryService", GradeQueryService.class);
+
 
     @Test
     void getScoreByStudentName() {
@@ -24,24 +29,10 @@ class GradeQueryServiceTest {
         // 내가 찾으려는 학생의 이름
         String findName = "A";
 
-        DataLoadService csvDataLoadService = context.getBean("csvDataLoadService", DataLoadService.class);
-        Students csvStudent = context.getBean("csvStudents", Students.class);
-        GradeQueryService defaultGradeQueryService = context.getBean("defaultGradeQueryService", GradeQueryService.class);
-
         csvDataLoadService.loadAndMerge();
 
         List<Score> scoreByStudentName = defaultGradeQueryService.getScoreByStudentName(findName);
         Assertions.assertThat(scoreByStudentName.size()).isEqualTo(2);
-
-
-//        CsvDataLoadService csvDataLoadService = new CsvDataLoadService();
-//        csvDataLoadService.loadAndMerge();
-//        Collection<Student> all = CsvStudents.getInstance().findAll();
-//
-//        List<Score> scoreByStudentName = new DefaultGradeQueryService().getScoreByStudentName(findName);
-//
-//        Assertions.assertThat(scoreByStudentName.size()).isEqualTo(2);
-
     }
 
     @Test
@@ -49,6 +40,11 @@ class GradeQueryServiceTest {
 
         // 내가 찾으려는 학번
         int findSeq = 10;
+
+        csvDataLoadService.loadAndMerge();
+        Score result = defaultGradeQueryService.getScoreByStudentSeq(findSeq);
+        Assertions.assertThat(result.getScore()).isEqualTo(50);
+
 //
 //        new CsvDataLoadService().loadAndMerge();
 //        Collection<Student> all = CsvStudents.getInstance().findAll();
