@@ -3,9 +3,8 @@ package com.nhnacademy.edu.springframework.project.service;
 import com.nhnacademy.edu.springframework.project.repository.CsvScores;
 import com.nhnacademy.edu.springframework.project.repository.CsvStudents;
 import com.nhnacademy.edu.springframework.project.repository.Score;
-import com.nhnacademy.edu.springframework.project.repository.Students;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.security.cert.CertStore;
 import java.util.ArrayList;
@@ -13,14 +12,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class DefaultGradeQueryService implements GradeQueryService {
 
-    @Autowired
     private CsvScores csvScores;
+    private CsvStudents csvStudents;
 
     @Autowired
-    private CsvStudents csvStudents;
+    public DefaultGradeQueryService(CsvScores csvScores, CsvStudents csvStudents) {
+        this.csvScores = csvScores;
+        this.csvStudents = csvStudents;
+    }
 
     @Override
     public List<Score> getScoreByStudentName(String name) {

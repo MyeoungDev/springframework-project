@@ -19,15 +19,16 @@ import java.util.List;
 public class CsvScores implements Scores {
 
 
+    @Autowired
     private CsvScores csvScores;
     private List<Score> scoreRecord;
 
-    @Autowired
-    public void setCsvScores(CsvScores csvScores) {
-        this.csvScores = csvScores;
-    }
+//    @Autowired
+//    public void setCsvScores(CsvScores csvScores) {
+//        this.csvScores = csvScores;
+//    }
 
-    private CsvScores(){
+    public CsvScores(){
         this.scoreRecord = new ArrayList<>();
     }
 
@@ -35,7 +36,7 @@ public class CsvScores implements Scores {
     public void load() {
 
         File file = new File("src/main/resources/data/score.csv");
-//        String absolutePath = file.getAbsolutePath();
+
         try (BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()))) {
             String line;
             while ((line = br.readLine()) != null) {

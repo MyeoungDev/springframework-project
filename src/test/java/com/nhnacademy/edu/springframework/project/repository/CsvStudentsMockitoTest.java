@@ -1,37 +1,41 @@
 package com.nhnacademy.edu.springframework.project.repository;
 
 import com.nhnacademy.edu.springframework.project.service.Student;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import static org.assertj.core.api.Assertions.*;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 
-class StudentsTest {
-    ApplicationContext context = new AnnotationConfigApplicationContext("com.nhnacademy.edu.springframework.project");
-    Students csvStudents = context.getBean("csvStudents", Students.class);
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-    Scores csvScores = context.getBean("csvScores", Scores.class);
+class CsvStudentsMockitoTest {
+
+    @InjectMocks
+    private CsvStudents csvStudents;
+
+    @InjectMocks
+    private CsvScores csvScores;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        csvStudents.load();
+        csvScores.load();
+    }
 
     @Test
     void load() {
-
-        csvStudents.load();
         assertThat(csvStudents.findAll()).isNotEmpty();
     }
 
     @Test
     void findAll() {
-
-        csvStudents.load();
-
         assertThat(csvStudents.findAll().stream().count()).isEqualTo(15);
     }
 
     @Test
     void merge() {
-
-        csvScores.load();
-        csvStudents.load();
         csvStudents.merge(csvScores.findAll());
 
         Student firstStudent = csvStudents.findAll().stream()
@@ -44,6 +48,5 @@ class StudentsTest {
 
         assertThat(firstStudent.getScore()).isNotNull();
         assertThat(lastStudent.getScore()).isNotNull();
-
     }
 }

@@ -24,10 +24,10 @@ public class CsvStudents implements Students {
 
     private Collection<Student> studensRecord;
 
-    @Autowired
-    public void setCsvStudents(CsvStudents csvStudents) {
-        this.csvStudents = csvStudents;
-    }
+//    @Autowired
+//    public void setCsvStudents(CsvStudents csvStudents) {
+//        this.csvStudents = csvStudents;
+//    }
 
     public CsvStudents() {
         studensRecord = new ArrayList<>();
@@ -37,7 +37,6 @@ public class CsvStudents implements Students {
     public void load() {
 
         File file = new File("src/main/resources/data/student.csv");
-//        String absolutePath = file.getAbsolutePath();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()))){
 

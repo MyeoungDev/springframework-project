@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CsvDataLoadService implements DataLoadService {
 
-    @Autowired
     private CsvScores csvScores;
-
-    @Autowired
     private CsvStudents csvStudent;
+    @Autowired
+    public CsvDataLoadService(CsvScores csvScores, CsvStudents csvStudents) {
+        this.csvScores = csvScores;
+        this.csvStudent = csvStudents;
+    }
 
     @Override
     public void loadAndMerge() {
