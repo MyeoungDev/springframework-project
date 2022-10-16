@@ -1,7 +1,5 @@
 package com.nhnacademy.edu.springframework.project.configuration;
 
-import com.nhnacademy.edu.springframework.project.repository.CsvScores;
-import com.nhnacademy.edu.springframework.project.repository.CsvStudents;
 import com.nhnacademy.edu.springframework.project.service.CsvDataLoadService;
 import com.nhnacademy.edu.springframework.project.service.DefaultGradeQueryService;
 import com.nhnacademy.edu.springframework.project.service.DefaultStudentService;
@@ -16,7 +14,6 @@ public class ServerConfig {
 
     @Autowired
     private JavaConfig javaConfig;
-    /* TODO 생성자 주입으로 다 바꾸고 하면 될듯 */
     @Bean
     public CsvDataLoadService CsvDataLoadService() {
         return new CsvDataLoadService(javaConfig.csvScores(), javaConfig.csvStudents());

@@ -8,13 +8,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 @Component
 public class CsvStudents implements Students {
@@ -23,11 +18,6 @@ public class CsvStudents implements Students {
     private CsvStudents csvStudents;
 
     private Collection<Student> studensRecord;
-
-//    @Autowired
-//    public void setCsvStudents(CsvStudents csvStudents) {
-//        this.csvStudents = csvStudents;
-//    }
 
     public CsvStudents() {
         studensRecord = new ArrayList<>();

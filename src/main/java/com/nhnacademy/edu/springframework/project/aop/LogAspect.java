@@ -8,9 +8,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Aspect
 @Component
 public class LogAspect {

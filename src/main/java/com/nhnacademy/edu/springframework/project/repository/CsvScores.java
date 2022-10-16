@@ -1,6 +1,5 @@
 package com.nhnacademy.edu.springframework.project.repository;
 
-import com.nhnacademy.edu.springframework.project.service.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,11 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -22,11 +17,6 @@ public class CsvScores implements Scores {
     @Autowired
     private CsvScores csvScores;
     private List<Score> scoreRecord;
-
-//    @Autowired
-//    public void setCsvScores(CsvScores csvScores) {
-//        this.csvScores = csvScores;
-//    }
 
     public CsvScores(){
         this.scoreRecord = new ArrayList<>();
